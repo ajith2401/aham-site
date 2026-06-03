@@ -10,17 +10,44 @@
   .you{color:#EDEBF2;} .us{color:#E8744F;}
   p.tag{color:#A8A4B8;font-size:1.05rem;margin:0 0 30px;}
   a.btn{display:block;background:#E8744F;color:#fff;text-decoration:none;font-weight:600;
-    padding:16px;border-radius:14px;font-size:1.1rem;margin-bottom:26px;}
+    padding:16px;border-radius:14px;font-size:1.1rem;margin-bottom:14px;}
+  .hint{color:#6E6A80;font-size:.82rem;margin:0 0 26px;line-height:1.5;}
+  /* In-app browser warning + iOS notice */
+  .banner{display:none;text-align:left;background:#2a1d16;border:1px solid #E8744F;
+    border-radius:14px;padding:16px 18px;margin-bottom:18px;font-size:.95rem;line-height:1.55;}
+  .banner b{color:#E8744F;}
+  .banner.ios{background:#16161f;border-color:#26263a;}
+  .banner.ios b{color:#C9A8E8;}
   .steps{text-align:left;background:#16161f;border:1px solid #26263a;border-radius:14px;padding:18px 20px;}
   .steps h2{font-size:.8rem;letter-spacing:1px;text-transform:uppercase;color:#A8A4B8;margin:0 0 10px;}
   .steps ol{margin:0;padding-left:20px;color:#EDEBF2;line-height:1.7;font-size:.95rem;}
   .note{color:#6E6A80;font-size:.82rem;margin-top:22px;line-height:1.5;}
   .note b{color:#C9A8E8;}
+  code{background:#26263a;padding:1px 5px;border-radius:5px;}
 </style></head>
 <body><div class="card">
   <h1><span class="you">Two</span><span class="us">Us</span></h1>
   <p class="tag">One question a day, for the two of you.</p>
-  <a class="btn" href="https://github.com/ajith2401/twous-site/releases/latest/download/TwoUs-pilot.apk">Download TwoUs</a>
+
+  <!-- Shown only inside in-app browsers (WhatsApp / Instagram / Facebook etc.)
+       which cannot download APK files. -->
+  <div class="banner" id="inapp">
+    <b>Open this in your browser first.</b><br/>
+    You're inside an app's built-in browser, which can't save the install file.
+    Tap the <b>⋮</b> (or <b>Share</b>) icon at the top, then choose
+    <b>Open in Chrome</b> / <b>Open in browser</b>, and tap Download there.
+  </div>
+
+  <!-- Shown only on iPhone/iPad: the app is Android-only for now. -->
+  <div class="banner ios" id="iosnote">
+    <b>TwoUs is on Android for now.</b><br/>
+    The iPhone version is coming. If you're on Android, open this link on your phone to install.
+  </div>
+
+  <a class="btn" id="dl"
+     href="https://github.com/ajith2401/twous-site/releases/download/v1.0-pilot/TwoUs-pilot.apk">Download TwoUs</a>
+  <p class="hint">Android will ask where to save, then to allow the install. Both are normal.</p>
+
   <div class="steps">
     <h2>How to install</h2>
     <ol>
@@ -31,4 +58,35 @@
     </ol>
   </div>
   <p class="note">If you arrived from an invite link, your <b>invite code</b> was shown on that page. Enter it after signing up.</p>
-</div></body></html>
+</div>
+
+<script>
+  // Direct, tag-pinned asset URL — one redirect, no dependence on GitHub's
+  // "latest" resolver (which can briefly 404 right after a re-upload).
+  var APK = "https://github.com/ajith2401/twous-site/releases/download/v1.0-pilot/TwoUs-pilot.apk";
+  var ua = navigator.userAgent || "";
+  var isAndroid = /Android/i.test(ua);
+  var isiOS = /iPhone|iPad|iPod/i.test(ua) || (/Macintosh/.test(ua) && "ontouchend" in document);
+  // In-app webviews that block file downloads.
+  var inApp = /FBAN|FBAV|FB_IAB|Instagram|Line\/|Twitter|Snapchat|Pinterest|MicroMessenger|WhatsApp|GSA\//i.test(ua);
+
+  var dl = document.getElementById("dl");
+
+  if (inApp) {
+    document.getElementById("inapp").style.display = "block";
+    if (isAndroid) {
+      // Break out of the in-app webview into the system browser (Chrome),
+      // which can actually download the APK. Falls back to the plain URL.
+      dl.href = "intent://github.com/ajith2401/twous-site/releases/download/v1.0-pilot/TwoUs-pilot.apk"
+              + "#Intent;scheme=https;action=android.intent.action.VIEW;"
+              + "S.browser_fallback_url=" + encodeURIComponent(APK) + ";end";
+      dl.textContent = "Open in Chrome to download";
+    } else {
+      dl.href = APK;
+    }
+  } else {
+    dl.href = APK;
+    if (isiOS) document.getElementById("iosnote").style.display = "block";
+  }
+</script>
+</body></html>
