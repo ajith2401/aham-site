@@ -26,8 +26,8 @@
   code{background:#26263a;padding:1px 5px;border-radius:5px;}
 </style></head>
 <body><div class="card">
-  <h1><span class="you">Two</span><span class="us">Us</span></h1>
-  <p class="tag">One question a day, for the two of you.</p>
+  <h1><span class="you">Ah</span><span class="us">am</span></h1>
+  <p class="tag">One question a day, answered together.</p>
 
   <!-- Shown only inside in-app browsers (WhatsApp / Instagram / Facebook etc.)
        which cannot download APK files. -->
@@ -45,7 +45,7 @@
   </div>
 
   <a class="btn" id="dl"
-     href="https://github.com/ajith2401/twous-site/releases/download/v1.0-pilot/TwoUs-pilot.apk">Download Aham</a>
+     href="https://github.com/ajith2401/aham-site/releases/download/v1.0-pilot/Aham-pilot.apk">Download Aham</a>
   <p class="hint">Android will ask where to save, then to allow the install. Both are normal.</p>
 
   <div class="steps">
@@ -63,7 +63,7 @@
 <script>
   // Direct, tag-pinned asset URL — one redirect, no dependence on GitHub's
   // "latest" resolver (which can briefly 404 right after a re-upload).
-  var APK = "https://github.com/ajith2401/twous-site/releases/download/v1.0-pilot/TwoUs-pilot.apk";
+  var APK = "https://github.com/ajith2401/aham-site/releases/download/v1.0-pilot/Aham-pilot.apk";
   var ua = navigator.userAgent || "";
   var isAndroid = /Android/i.test(ua);
   var isiOS = /iPhone|iPad|iPod/i.test(ua) || (/Macintosh/.test(ua) && "ontouchend" in document);
@@ -77,7 +77,7 @@
     if (isAndroid) {
       // Break out of the in-app webview into the system browser (Chrome),
       // which can actually download the APK. Falls back to the plain URL.
-      dl.href = "intent://github.com/ajith2401/twous-site/releases/download/v1.0-pilot/TwoUs-pilot.apk"
+      dl.href = "intent://github.com/ajith2401/aham-site/releases/download/v1.0-pilot/Aham-pilot.apk"
               + "#Intent;scheme=https;action=android.intent.action.VIEW;"
               + "S.browser_fallback_url=" + encodeURIComponent(APK) + ";end";
       dl.textContent = "Open in Chrome to download";
